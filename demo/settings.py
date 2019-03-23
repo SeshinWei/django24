@@ -10,21 +10,27 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/1.11/ref/settings/
 """
 
-import os
-
+import os, sys
+# sys.path
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
+# 项目根路由
+# /Users/chao/Desktop/demo
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
+# print(BASE_DIR)
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/1.11/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
+# Django自带的密钥,将来如果需要进行加密处理可以用此密钥
 SECRET_KEY = 'xx+5r-%#csi71j88j15l-w+v%@&y=yx#mngwm#=3h!o=$-=+va'
 
 # SECURITY WARNING: don't run with debug turned on in production!
+# 默认开启调试模式,将来项目部署上线时,需要把DEBUG改为False
 DEBUG = True
 
+# 允许那个域名访问django项目
 ALLOWED_HOSTS = []
 
 
@@ -41,6 +47,7 @@ INSTALLED_APPS = [
     'users.apps.UsersConfig',   # 注册子应用
 ]
 
+# 中间件 类似于flask中的请求勾子
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
@@ -54,6 +61,7 @@ MIDDLEWARE = [
 # 工程配置的路由入口文件
 ROOT_URLCONF = 'demo.urls'
 
+# 模板文件配置项
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
@@ -70,12 +78,14 @@ TEMPLATES = [
     },
 ]
 
+# 部署上线后工程启动入口
 WSGI_APPLICATION = 'demo.wsgi.application'
 
 
 # Database
 # https://docs.djangoproject.com/en/1.11/ref/settings/#databases
 
+# 数据库配置项
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
@@ -87,6 +97,7 @@ DATABASES = {
 # Password validation
 # https://docs.djangoproject.com/en/1.11/ref/settings/#auth-password-validators
 
+# 密码验证配置项
 AUTH_PASSWORD_VALIDATORS = [
     {
         'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator',
@@ -105,9 +116,10 @@ AUTH_PASSWORD_VALIDATORS = [
 
 # Internationalization
 # https://docs.djangoproject.com/en/1.11/topics/i18n/
-
+# 工程语言 默认是英文 可以修改为简体中心  zh-hans
 LANGUAGE_CODE = 'en-us'
 
+# 时区  默认是世界时间 可以修改为亚洲/上海时区  Asia/Shanghai
 TIME_ZONE = 'UTC'
 
 USE_I18N = True
@@ -119,5 +131,5 @@ USE_TZ = True
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/1.11/howto/static-files/
-
+# 静态文件访问的路由前缀
 STATIC_URL = '/static/'
