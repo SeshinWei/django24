@@ -15,9 +15,15 @@ Including another URLconf
 """
 from django.conf.urls import url, include
 from django.contrib import admin
+from users import views
+
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),  # 后台管理站点路由
 
-    url(r'^', include('users.urls')),  # 把users子应用中的所有路由添加到总路由/根路由中
+    # url(r'^', include('users.urls')),  # 把users子应用中的所有路由添加到总路由/根路由中
+
+    # url(r'^users/index/$', views.index),  # 只在总里面去定义路由
+
+    url(r'^users/', include('users.urls')),  # 总里面写一段
 ]
