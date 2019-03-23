@@ -66,3 +66,14 @@ def get_user(request):
     print(request.user)
     return HttpResponse('get_user')
 
+
+
+
+
+
+# GET /response_demo/
+def response_demo(request):
+    """演示响应对象的基本操作"""
+    # return HttpResponse(content='hello', content_type='text/html', status=200)
+    return HttpResponse(content='hello', content_type='text/plain', status=201)
+    # return HttpResponse(content='hello')
