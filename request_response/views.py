@@ -57,3 +57,12 @@ def get_json(request):
     # json.dumps()  # 把字典或列表转换成json字符串
     print(dict)
     return HttpResponse('get_json')
+
+
+def get_user(request):
+    """演示获取当前请求对象"""
+    # 当前如果没有登录获取 request.user 会是一个匿名用户AnonymousUser
+    # 如果当前登录了,request.user 获取到当前登录的用户对象 zhangsan
+    print(request.user)
+    return HttpResponse('get_user')
+
