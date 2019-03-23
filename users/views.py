@@ -19,9 +19,11 @@ def index(request):
     """
     return HttpResponse('hello world')
 
+
 # GET /users/say/
 def say(request):
     return HttpResponse('say')
+
 
 # GET /users/sayhello/
 def say_hello(request):

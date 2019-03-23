@@ -47,6 +47,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
 
     'users.apps.UsersConfig',   # 注册子应用
+    # 子应用可以注册也可以不注册?
 ]
 
 # 中间件 类似于flask中的请求勾子
