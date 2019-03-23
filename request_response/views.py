@@ -1,5 +1,5 @@
 from django.shortcuts import render
-from django.http import HttpResponse
+from django.http import HttpResponse, JsonResponse, HttpResponseNotFound
 import json
 
 # Create your views here.
@@ -75,5 +75,18 @@ def get_user(request):
 def response_demo(request):
     """演示响应对象的基本操作"""
     # return HttpResponse(content='hello', content_type='text/html', status=200)
-    return HttpResponse(content='hello', content_type='text/plain', status=201)
+    # return HttpResponse(content='hello', content_type='text/plain', status=201)
+    response = HttpResponse('hello')
+    response['itcast'] = 'hello world'  # 自定义响应头
     # return HttpResponse(content='hello')
+    return response
+
+
+# GET /json_response_demo/
+def json_response_demo(request):
+    """演示响应json数据"""
+    # data = {'name': 'zs', 'age': 12}
+    data = [{'name': 'zs', 'age': 12}, 'hahaha']
+    dict = {'dict1': data}
+    # 如果响应的json数据不是字典面是列表 要么 多指定safe=False 或者把列表包装成字典格式
+    return JsonResponse(dict)
