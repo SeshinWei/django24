@@ -28,6 +28,8 @@ SECRET_KEY = 'xx+5r-%#csi71j88j15l-w+v%@&y=yx#mngwm#=3h!o=$-=+va'
 
 # SECURITY WARNING: don't run with debug turned on in production!
 # 默认开启调试模式,将来项目部署上线时,需要把DEBUG改为False
+# 如果将来项目部署上线后,Django服务器不再提供对静态文件访问的支持, 因为Django服务器是动态业务逻辑服务器,不擅长静态文件处理,将来静态文件访问
+# 需要放到nginx静态文件服务器
 DEBUG = True
 
 # 允许那个域名访问django项目
@@ -133,3 +135,11 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/1.11/howto/static-files/
 # 静态文件访问的路由前缀
 STATIC_URL = '/static/'
+# http://127.0.0.1:8000/static/index.html
+# http://127.0.0.1:8000/static/mm03.jpg
+# 配置静态文件加载存储目录
+STATICFILES_DIRS = [
+    # /Users/chao/Desktop/demo/static_files
+    os.path.join(BASE_DIR, 'static_files'),
+    os.path.join(BASE_DIR, 'static_files/test'),
+]
