@@ -1,1 +1,1 @@
-"""定义当前子应用下的所有路由"""from django.conf.urls import urlfrom . import viewsurlpatterns = [    # url(路径正则, 视图函数的名字)    # url(r'^users/index/$', views.index),    url(r'^index/$', views.index),]
+"""定义当前子应用下的所有路由"""from django.conf.urls import urlfrom . import viewsurlpatterns = [    # url(路径正则, 视图函数的名字)    # url(r'^users/index/$', views.index),    url(r'^index/$', views.index),    # http://127.0.0.1:8000/users/sayhello    # 路由匹配顺序是自上而下的, 定义子路由时一定要在最后多加一个$    # 定义子路由时尽量在路由的最后加一个斜杠 会更加灵活    url(r'^say/$', views.say),    url(r'^sayhello/$', views.say_hello),]

@@ -1,5 +1,6 @@
 from django.shortcuts import render
 from django.http import HttpResponse
+
 # Create your views here.
 """
 路由定义三种写法:
@@ -7,6 +8,7 @@ from django.http import HttpResponse
 2. 总
 3. 总 + 子
 """
+
 
 # GET http://127.0.0.1:8000/users/index/?a=10&b=20
 def index(request):
@@ -17,4 +19,10 @@ def index(request):
     """
     return HttpResponse('hello world')
 
+# GET /users/say/
+def say(request):
+    return HttpResponse('say')
 
+# GET /users/sayhello/
+def say_hello(request):
+    return HttpResponse('say_hello')
