@@ -15,7 +15,6 @@ def weather1(request, city, year):
 
     return HttpResponse('weather1')
 
-# weather1()
 
 # /weather/beijing/2018
 def weather2(request, year, city):
@@ -106,4 +105,17 @@ def redirect_demo(request):
 
     # 在路由最前面加/ 代表从根路由进行重定向,如果没有加/ 那么就是从当前路由拼接后面的路由再进行定向
     # return redirect('/users/index/')
-    return HttpResponse('redirect_demo')
+    # return HttpResponse('redirect_demo')
+    return redirect(reverse('users:index'))
+
+
+# GET /cookie_demo/
+def cookie_demo(request):
+    """演示cookie读写操作"""
+
+    response = HttpResponse('ok')
+    response.set_cookie('name', 'ww', max_age=3600)  # 设置cookie
+    # response.delete_cookie('name')  # 删除cookie
+
+    print(request.COOKIES.get('name'))  # None  zs
+    return response
