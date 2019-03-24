@@ -144,3 +144,16 @@ STATICFILES_DIRS = [
     os.path.join(BASE_DIR, 'static_files'),
     os.path.join(BASE_DIR, 'static_files/test'),
 ]
+
+# redis数据库配置
+CACHES = {
+    "default": {
+        "BACKEND": "django_redis.cache.RedisCache",
+        "LOCATION": "redis://192.168.103.210:6379/1",
+        "OPTIONS": {
+            "CLIENT_CLASS": "django_redis.client.DefaultClient",
+        }
+    }
+}
+SESSION_ENGINE = "django.contrib.sessions.backends.cache"  # 设置session有内存缓存
+SESSION_CACHE_ALIAS = "default"  # 缓存到redis default名的配置redis

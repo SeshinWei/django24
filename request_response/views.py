@@ -119,3 +119,16 @@ def cookie_demo(request):
 
     print(request.COOKIES.get('name'))  # None  zs
     return response
+
+# GET /session_demo/
+def session_demo(request):
+    """演示session读写操作"""
+    # session依赖于cookie
+    # 当代码执行到这行时,会将session设置到redis数据
+    # 同时,生成了一个唯一session_id的东西,把session_id 通过后期的响应对象设置到浏览器的cookie中
+    # request.session['name'] = 'zhangsan'  # 设置session
+
+    # 先通过请求对象读取到cookie中的session_id, 然后通过session_id再读取出redis中session记录, 再通过name key获取value
+    print(request.session.get('name'))  # 读取session
+    return HttpResponse('session_demo')
+
