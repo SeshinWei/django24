@@ -22,12 +22,15 @@ def my_decorator(view_func):
 # def index(request):
 #     return HttpResponse('ok')
 
-
-@method_decorator(my_decorator, name='get')
+# 将普通装饰器进行转换为方法/类的装饰器
+# @method_decorator(要进行转换的装饰器, name='要装饰类中的那个方法)
+# @method_decorator(my_decorator, name='get')
 class DemoView(View):
     """定义类视图"""
 
     # @my_decorator
+
+    @method_decorator(my_decorator)
     def get(self, request):
         return HttpResponse('get请求业务逻辑')
 
