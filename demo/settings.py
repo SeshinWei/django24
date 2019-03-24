@@ -65,7 +65,7 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 
     'middleware.my_middleware',  # 注册中间件
-    'middleware.my_middleware2',  # 注册中间件
+    # 'middleware.my_middleware2',  # 注册中间件
 
 ]
 
@@ -76,7 +76,7 @@ ROOT_URLCONF = 'demo.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [os.path.join(BASE_DIR, 'templates')],  # 指定模板文件加载路径
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [

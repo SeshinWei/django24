@@ -41,3 +41,15 @@ class DemoView(View):
 # getattr()  获取类中的属性或方法
 # __import__()  # 动态导包
 
+
+# GET /template_demo/
+def template_demo(request):
+    """演示模板使用"""
+    # render(请求对象, 加载模板文件名, 上下文数据)
+    # 传入到模板中进行渲染的上下文数据必须是以字典的格式传入
+    context = {
+        'name': 'zhangsan',
+        'alist': [10, 20, 30],
+        'adict': {'age': 20, 'name': 'ww'}
+    }
+    return render(request, 'index.html', context)
