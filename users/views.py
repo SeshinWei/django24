@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import render, reverse
 from django.http import HttpResponse
 
 # Create your views here.
@@ -22,6 +22,7 @@ def index(request):
 
 # GET /users/say/
 def say(request):
+    print(reverse('users:index'))  # /users/index/
     return HttpResponse('say')
 
 

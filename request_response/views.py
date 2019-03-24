@@ -1,4 +1,4 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, reverse
 from django.http import HttpResponse, JsonResponse, HttpResponseNotFound
 import json
 
@@ -100,5 +100,10 @@ def redirect_demo(request):
     # if 判断当前是不是登录用户,如果是 返回用户中心界面数据
     #     else:
 
+    # print(reverse('index')) # /json_response_demo_xxxx/  没有设置命名空间时,可以用路由别名进行反向解析,它是全局查找
+    # 如果设置了命名空间后,那么这个子应用中进行反向解析时 写法 (命名空间:路由别名)
+    print(reverse('request_response:index')) # json_response_demo_xxxx
+
     # 在路由最前面加/ 代表从根路由进行重定向,如果没有加/ 那么就是从当前路由拼接后面的路由再进行定向
-    return redirect('/users/index/')
+    # return redirect('/users/index/')
+    return HttpResponse('redirect_demo')
