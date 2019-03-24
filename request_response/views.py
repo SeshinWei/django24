@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.http import HttpResponse, JsonResponse, HttpResponseNotFound
 import json
 
@@ -15,6 +15,7 @@ def weather1(request, city, year):
 
     return HttpResponse('weather1')
 
+# weather1()
 
 # /weather/beijing/2018
 def weather2(request, year, city):
@@ -90,3 +91,14 @@ def json_response_demo(request):
     dict = {'dict1': data}
     # 如果响应的json数据不是字典面是列表 要么 多指定safe=False 或者把列表包装成字典格式
     return JsonResponse(dict)
+
+
+# GET /redirect_demo/
+def redirect_demo(request):
+
+    """演示重定向"""
+    # if 判断当前是不是登录用户,如果是 返回用户中心界面数据
+    #     else:
+
+    # 在路由最前面加/ 代表从根路由进行重定向,如果没有加/ 那么就是从当前路由拼接后面的路由再进行定向
+    return redirect('/users/index/')
