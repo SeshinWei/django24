@@ -174,3 +174,7 @@ CACHES = {
 }
 SESSION_ENGINE = "django.contrib.sessions.backends.cache"  # 设置session有内存缓存
 SESSION_CACHE_ALIAS = "default"  # 缓存到redis default名的配置redis
+
+
+# 配置上传图片存储路径
+MEDIA_ROOT=os.path.join(BASE_DIR, "static_files/media")

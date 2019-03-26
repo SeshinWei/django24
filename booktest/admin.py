@@ -27,7 +27,7 @@ class BookInfoAdmin(admin.ModelAdmin):
 
     # 设置编辑字段分组展示
     fieldsets = [
-        ['基础组', {'fields': ['btitle', 'bpub_date']}],
+        ['基础组', {'fields': ['btitle', 'bpub_date', 'image']}],
         ['高级组', {
                     'fields': ['bread', 'bcomment'],
                     'classes': ['collapse']  # 设置组默认主折叠样式
@@ -55,3 +55,9 @@ class HeroInfoAdmin(admin.ModelAdmin):
 
 admin.site.register(BookInfo, BookInfoAdmin)  # 将模型站点管理类和相应模型关联到一起
 # admin.site.register(HeroInfo, HeroInfoAdmin)
+
+
+# 以下三个设置可以放在任意子应用的admin中 只用写一次就行了
+admin.site.site_header = '传智书城'
+admin.site.site_title = '传智书城MIS'
+admin.site.index_title = '欢迎使用传智书城MIS'
