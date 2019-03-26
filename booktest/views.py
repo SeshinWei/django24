@@ -4,7 +4,7 @@ from django.shortcuts import render
 
 
 from booktest.models import BookInfo, HeroInfo
-from django.db.models import F, Q
+from django.db.models import F, Q, Sum
 
 
 """演示数据新增  save  create"""
@@ -49,7 +49,7 @@ from django.db.models import F, Q
 条件语法格式: 字段名__运算符=值
 """
 
-# BookInfo.objects.get(id=1)
+# BookInfo.objects.get(id=1)  # 返回单一模型对象,查不到会报错
 # BookInfo.objects.filter(id__exact=1)  # filter查询结果都是QuerySet类型,查询不到也不会报错(可以有任意个)
 
 # BookInfo.objects.filter(btitle__contains='湖')
@@ -86,3 +86,8 @@ from django.db.models import F, Q
 
 # BookInfo.objects.filter(~Q(id=3))  # 逻辑非 表示查询满足条件以外 和exclude 一样
 # BookInfo.objects.filter(Q(id=3))  # 查询id为3的
+
+# BookInfo.objects.aggregate(Sum('bread'))  # {bread__max : xx}
+
+# BookInfo.objects.all().order_by('bread')  # 默认升序
+BookInfo.objects.all().order_by('-bread')  # 默认升序
