@@ -5,6 +5,10 @@ from .models import BookInfo, HeroInfo
 # 如果相让某个模型在admin站点中进行展示 需要装展示的模型注册到admin站点
 
 # 如果想要调整admin站点样式需要定义模型站点管理类
+class HeroInfoStack(admin.TabularInline):
+    model = HeroInfo
+    extra = 2  # 默认显示几个空格子
+
 
 class BookInfoAdmin(admin.ModelAdmin):
     """调整书籍数据在站点界面显示"""
@@ -29,6 +33,8 @@ class BookInfoAdmin(admin.ModelAdmin):
                     'classes': ['collapse']  # 设置组默认主折叠样式
                  }]
     ]
+
+    inlines = [HeroInfoStack]  # 在书箱编辑页面关联展示 英雄数据
 
 
 
