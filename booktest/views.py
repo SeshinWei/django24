@@ -113,5 +113,32 @@ from django.db.models import F, Q, Sum
 # book = hero.hbook  # 如果有外键直接当前模型对象.外键 代表获取外键模型对象
 
 # 一查多 (先把一查出来, 然后得用一.多的那方模型名小写_set 查到多)
-book = BookInfo.objects.get(id=1)
-book.heroinfo_set.all()  # 如果当前没有外键的一方  应该是当前模型对象.多的一方模型旬小写_set
+# book = BookInfo.objects.get(id=1)
+# book.heroinfo_set.all()  # 如果当前没有外键的一方  应该是当前模型对象.多的一方模型旬小写_set
+
+
+# 查询英雄hcomment中包含'打狗'的书籍  (多查一)
+# BookInfo.objects.filter(heroinfo__hcomment__contains='打狗')
+
+# hero = HeroInfo.objects.get(hcomment__contains='打狗')
+# hero.hbook
+
+# 查询书籍发布日期为'1995'年的所有英雄 (一查多)
+# HeroInfo.objects.filter(hbook__bpub_date__year='1995')
+
+# book = BookInfo.objects.get(bpub_date__year='1995')
+# book.heroinfo_set.all()
+
+
+"""演示修改  save  update"""
+# book = BookInfo.objects.get(btitle='大三国')
+# book.btitle = '大大三国'
+# book.save()
+
+# BookInfo.objects.filter(id__in=[5, 6]).update(btitle='东游记')
+
+"""演示 删除 delete"""
+# book = BookInfo.objects.get(btitle='东游记')
+# book.delete()
+
+BookInfo.objects.filter(id=5).delete()
