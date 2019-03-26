@@ -18,13 +18,33 @@ class BookInfoAdmin(admin.ModelAdmin):
     # list_display = ('bread') # 在Django中如果可以赋值为元组都可以给它列表
     list_display = ['id', 'btitle', 'bread', 'bcomment', 'bpub_date_format'] # 控制列表界面显示那些列 [元素可以是模型中的方法名, 字段名]
 
+    """调整编辑界面样式"""
+    # fields = ['btitle', 'bpub_date']  # 设置编辑页面能编辑的字段
+
+    # 设置编辑字段分组展示
+    fieldsets = [
+        ['基础组', {'fields': ['btitle', 'bpub_date']}],
+        ['高级组', {
+                    'fields': ['bread', 'bcomment'],
+                    'classes': ['collapse']  # 设置组默认主折叠样式
+                 }]
+    ]
+
+
 
 
 @admin.register(HeroInfo)
 class HeroInfoAdmin(admin.ModelAdmin):
     """调整英雄数据在站点展示"""
 
+    """调整列表界面样式"""
     list_display = ['id', 'hname', 'hcomment', 'hgender', 'hbook', 'read']
+
+    # 设置右侧过滤栏
+    list_filter = ['hbook', 'hgender']
+
+    # 设置搜索框
+    search_fields = ['hname', 'id']
 
 
 admin.site.register(BookInfo, BookInfoAdmin)  # 将模型站点管理类和相应模型关联到一起
