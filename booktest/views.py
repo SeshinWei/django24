@@ -31,3 +31,15 @@ from booktest.models import BookInfo, HeroInfo
 #     btitle='西游记',
 #     bpub_date='2001-11-11'
 # )
+
+"""演示基本查询  get all  count"""
+
+# try:
+#     BookInfo.objects.get(id=10)
+# except BookInfo.DoesNotExist:
+#     print('查询失败')
+
+# book = BookInfo.objects.get(id=1)
+# BookInfo.objects.all()
+
+BookInfo.objects.all().count()
