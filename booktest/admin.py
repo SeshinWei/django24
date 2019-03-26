@@ -18,9 +18,13 @@ class BookInfoAdmin(admin.ModelAdmin):
     # list_display = ('bread') # 在Django中如果可以赋值为元组都可以给它列表
     list_display = ['id', 'btitle', 'bread', 'bcomment', 'bpub_date_format'] # 控制列表界面显示那些列 [元素可以是模型中的方法名, 字段名]
 
+
+
 @admin.register(HeroInfo)
 class HeroInfoAdmin(admin.ModelAdmin):
     """调整英雄数据在站点展示"""
+
+    list_display = ['id', 'hname', 'hcomment', 'hgender', 'hbook', 'read']
 
 
 admin.site.register(BookInfo, BookInfoAdmin)  # 将模型站点管理类和相应模型关联到一起

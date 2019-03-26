@@ -41,5 +41,13 @@ class HeroInfo(models.Model):
         verbose_name = '英雄'
         verbose_name_plural = verbose_name
 
+
+
     def __str__(self):
         return self.hname
+
+    def read(self):
+        return self.hbook.bread
+
+    read.short_description = '阅读量'
+    read.admin_order_field = 'hbook__bread'
