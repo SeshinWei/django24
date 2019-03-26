@@ -90,4 +90,28 @@ from django.db.models import F, Q, Sum
 # BookInfo.objects.aggregate(Sum('bread'))  # {bread__max : xx}
 
 # BookInfo.objects.all().order_by('bread')  # 默认升序
-BookInfo.objects.all().order_by('-bread')  # 默认升序
+# BookInfo.objects.all().order_by('-bread')  # 默认升序
+
+
+
+
+# 关联查询 ()
+"""如果filter中的条件不是当前的模型类字段 而是关联的模型字段做条件时,需要在字段名前面多加 模型名"""
+# 一查多/多查一
+
+# 多查一 (一.objects.filter(多的模型名小写__多的那方模型属性=值))
+# BookInfo.objects.filter(heroinfo__hname='郭靖')
+# BookInfo.objects.filter(heroinfo__hname__contains='靖')
+
+# 一查多 (多.objects.filter(外键__一的属性=值)
+# HeroInfo.objects.filter(bookinfo__id__gt=1)
+# HeroInfo.objects.filter(hbook__id=1)
+
+
+# 多查一 ( 先把多查出来, 然后再利用多里面的外键 查到一)
+# hero = HeroInfo.objects.get(hname='郭靖')
+# book = hero.hbook  # 如果有外键直接当前模型对象.外键 代表获取外键模型对象
+
+# 一查多 (先把一查出来, 然后得用一.多的那方模型名小写_set 查到多)
+book = BookInfo.objects.get(id=1)
+book.heroinfo_set.all()  # 如果当前没有外键的一方  应该是当前模型对象.多的一方模型旬小写_set
