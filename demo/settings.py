@@ -46,6 +46,8 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
 
+    'rest_framework',  # DRF应用
+
     'users.apps.UsersConfig',   # 注册子应用
     # 子应用可以注册也可以不注册? 子应用中定义的模型需要迁移时,必须要注册子应用, 一般有到模板也需要注册子应用
     # 如果子应用中只有视图和路由这些代码时,可以不注册
