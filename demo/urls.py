@@ -30,4 +30,6 @@ urlpatterns = [
     url(r'^', include('request_response.urls', namespace='request_response')),  # 演示请求和响应模块
 
     url(r'^', include('classview.urls')),  # 类视图模块
+
+    url(r'^', include('booktest.urls')),  # 书籍模块
 ]
