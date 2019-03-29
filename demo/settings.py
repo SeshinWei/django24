@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/1.11/ref/settings/
 """
 
 import os, sys
+
 # sys.path
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 # 项目根路由
@@ -35,7 +36,6 @@ DEBUG = True
 # 允许那个域名访问django项目
 ALLOWED_HOSTS = []
 
-
 # Application definition
 # 安装或注册Django自带子应用 及第三方或自己创建的子应用
 INSTALLED_APPS = [
@@ -48,7 +48,7 @@ INSTALLED_APPS = [
 
     'rest_framework',  # DRF应用
 
-    'users.apps.UsersConfig',   # 注册子应用
+    'users.apps.UsersConfig',  # 注册子应用
     # 子应用可以注册也可以不注册? 子应用中定义的模型需要迁移时,必须要注册子应用, 一般有到模板也需要注册子应用
     # 如果子应用中只有视图和路由这些代码时,可以不注册
     'booktest.apps.BooktestConfig',  # ORM演示模块
@@ -97,7 +97,6 @@ TEMPLATES = [
 # 部署上线后工程启动入口
 WSGI_APPLICATION = 'demo.wsgi.application'
 
-
 # Database
 # https://docs.djangoproject.com/en/1.11/ref/settings/#databases
 
@@ -112,7 +111,6 @@ DATABASES = {
         'NAME': 'django_24'  # 数据库名字
     }
 }
-
 
 # Password validation
 # https://docs.djangoproject.com/en/1.11/ref/settings/#auth-password-validators
@@ -133,7 +131,6 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
-
 # Internationalization
 # https://docs.djangoproject.com/en/1.11/topics/i18n/
 # 工程语言 默认是英文 可以修改为简体中心  zh-hans
@@ -149,7 +146,6 @@ USE_I18N = True
 USE_L10N = True
 
 USE_TZ = True
-
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/1.11/howto/static-files/
@@ -177,6 +173,5 @@ CACHES = {
 SESSION_ENGINE = "django.contrib.sessions.backends.cache"  # 设置session有内存缓存
 SESSION_CACHE_ALIAS = "default"  # 缓存到redis default名的配置redis
 
-
 # 配置上传图片存储路径
-MEDIA_ROOT=os.path.join(BASE_DIR, "static_files/media")
+MEDIA_ROOT = os.path.join(BASE_DIR, "static_files/media")
