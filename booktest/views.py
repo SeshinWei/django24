@@ -1,1 +1,144 @@
-"""GET     /books/         提供所有记录POST    /books/         新增一条记录GET     /books/<pk>/    提供指定id的记录PUT     /books/<pk>/    修改指定id的记录DELETE  /books/<pk>/    删除指定id的记录响应数据    JSON# 列表视图: 路由后面没有pk/ID# 详情视图: 路由后面 pk/ID"""from django.views import Viewfrom django.http import HttpResponse, JsonResponseimport jsonfrom rest_framework.viewsets import ModelViewSetfrom .models import BookInfofrom .serializers import BookInfoSerializerclass BookListView(View):    """列表视图"""    def get(self, request):        """查询所有图书接口"""        # 1.查询出所有图书模型        books = BookInfo.objects.all()        # 2.遍历查询集,取出里面的每个书籍模型对象,把模型对象转换成字典        # 定义一个列表变量用来保存所个字典        book_list = []        for book in books:            book_dict = {                'id': book.id,                'btitle': book.btitle,                'bpub_date': book.bpub_date,                'bread': book.bread,                'bcomment': book.bcomment,                'image': book.image.url if book.image else ''  # None.url            }            book_list.append(book_dict)  # 将转换好的字典添加到列表中        # 3.响应        return JsonResponse(book_list, safe=False)    def post(self, request):        """新增图书接口"""        # 获取前端传入的请求体数据(json) request.body        json_str_bytes = request.body        # 把bytes类型的json字符串转换成json_str        json_str = json_str_bytes.decode()        # 利用json.loads将json字符串转换成json(字典/列表)        book_dict = json.loads(json_str)        # 创建模型对象并保存(把字典转换成模型并存储)        book = BookInfo(            btitle=book_dict['btitle'],            bpub_date=book_dict['bpub_date']        )        book.save()        # 把新增的模型转换成字典        json_dict = {            'id': book.id,            'btitle': book.btitle,            'bpub_date': book.bpub_date,            'bread': book.bread,            'bcomment': book.bcomment,            'image': book.image.url if book.image else ''  # None.url        }        # 响应(把新增的数据再响应回去, 201)        return JsonResponse(json_dict, status=201)class BookDetailView(View):    """详情视图"""    def get(self, request, pk):        """查询指定某个图书接口"""        # 1.获取出指定pk的那个模型对象        try:            book = BookInfo.objects.get(id=pk)        except BookInfo.DoesNotExist:            return HttpResponse({'message': '查询的数据不存在'}, status=404)        # 2.模型对象转字典        book_dict = {            'id': book.id,            'btitle': book.btitle,            'bpub_date': book.bpub_date,            'bread': book.bread,            'bcomment': book.bcomment,            'image': book.image.url if book.image else ''  # None.url        }        # 3.响应        return JsonResponse(book_dict)    def put(self, request, pk):        """修改指定图书接口"""        # 先查询要修改的模型对象        try:            book = BookInfo.objects.get(pk=pk)        except BookInfo.DoesNotExist:            return HttpResponse({'message': '要修改的数据不存在'}, status=404)        # 获取前端传入的新数据(把数据转换成字典)        json_str_bytes = request.body        json_str = json_str_bytes.decode()        book_dict = json.loads(json_str)        # book_dict = json.loads(request.body.decode())        # 重新给模型指定的属性赋值        book.btitle = book_dict['btitle']        book.bpub_date = book_dict['bpub_date']        # 调用save方法进行修改操作        book.save()        # 把修改后的模型再转换成字典        json_dict = {            'id': book.id,            'btitle': book.btitle,            'bpub_date': book.bpub_date,            'bread': book.bread,            'bcomment': book.bcomment,            'image': book.image.url if book.image else ''  # None.url        }        # 响应        return JsonResponse(json_dict)    def delete(self, request, pk):        """删除指定图书接口"""        # 获取要删除的模型对象        try:            book = BookInfo.objects.get(id=pk)        except BookInfo.DoesNotExist:            return HttpResponse({'message': '要删除的数据不存在'}, status=404)        # 删除模型对象        book.delete()  # 物理删除(真正从数据库中删除)        # book.is_delete = True        # book.save() (逻辑删除)        # 响应: 删除时不需要有响应体但要指定状态码为 204        return HttpResponse(status=204)# class BookInfoViewSet(ModelViewSet):#     """定义视图集"""#     # 指定查询集#     queryset = BookInfo.objects.all()##     # 指定序列化器#     serializer_class = BookInfoSerializerfrom booktest.serializers import BookInfoSerializer, HeroInfoSerializerfrom booktest.models import BookInfo, HeroInfo# book = BookInfo.objects.get(id=1)# s = BookInfoSerializer(instance=book)  # 创建序列化器对象,并序列化# s.data   # 获取序列化后的数据## qs = BookInfo.objects.all()# s1 = BookInfoSerializer(instance=qs, many=True)# s1.data"""[{},{},]序列化单个heroinfo 将它关联的英雄也序列化出来"""# hero = HeroInfo.objects.get(id=1)# serializer = HeroInfoSerializer(instance=hero)# serializer.data# data = {#     'btitle': '三国',#     'bpub_date': '1991-11-11'# }# serializer = BookInfoSerializer(data=data)# serializer.is_valid()  # 调用序列化器的校验方法 True或False# serializer.is_valid(raise_exception=True)  # raise_exception=True如果多指定这个 将来校验出错后,会自动抛出错误信息# serializer.errors  # 获取校验的错误信息# serializer.validated_data  # 获取反序列化校验后的数据还是字典## # 如果校验成功# book = serializer.save()  # 当调用序列化器的save方法时,会执行序列化器中的create方法或update方法# def save(self, **kwargs):#     if self.instance is not None:#         self.instance = self.update(self.instance, validated_data)#         assert self.instance is not None, (#             '`update()` did not return an object instance.'#         )#     else:#         self.instance = self.create(validated_data)#         assert self.instance is not None, (#             '`create()` did not return an object instance.'#         )##     return self.instance
+from django.shortcuts import render
+
+# Create your views here.
+
+
+from booktest.models import BookInfo, HeroInfo
+from django.db.models import F, Q, Sum
+
+
+"""演示数据新增  save  create"""
+# book = BookInfo()
+# book.btitle = '小三国'
+# book.bpub_date = '1991-11-11'
+#
+# book.save()
+
+
+# book = BookInfo(
+#     btitle='大三国',
+#     bpub_date='1990-11-11'
+# )
+# book.save()
+#
+# hero = HeroInfo(
+#     hname='张三',
+#     hbook=book,  # 外键=关联的模型对象
+#     # hbook_id=book.id   # 外键_id=关联的模型对象.id
+# )
+# hero.save()
+
+# BookInfo.objects.create(
+#     btitle='西游记',
+#     bpub_date='2001-11-11'
+# )
+
+"""演示基本查询  get all  count"""
+
+# try:
+#     BookInfo.objects.get(id=10)
+# except BookInfo.DoesNotExist:
+#     print('查询失败')
+
+# book = BookInfo.objects.get(id=1)
+# BookInfo.objects.all()
+
+# BookInfo.objects.all().count()
+
+"""演示过滤查询  filter exclude get
+条件语法格式: 字段名__运算符=值
+"""
+
+# BookInfo.objects.get(id=1)  # 返回单一模型对象,查不到会报错
+# BookInfo.objects.filter(id__exact=1)  # filter查询结果都是QuerySet类型,查询不到也不会报错(可以有任意个)
+
+# BookInfo.objects.filter(btitle__contains='湖')
+
+# BookInfo.objects.filter(btitle__endswith='部')
+
+# BookInfo.objects.filter(btitle__isnull=False)
+
+# BookInfo.objects.filter(id__in=[2, 4])
+# > gt
+# < lt
+# >= gte
+# <= lte
+
+# BookInfo.objects.filter(id__gt=2)
+# BookInfo.objects.exclude(id=3)
+
+# BookInfo.objects.filter(bpub_date__year='1980')
+
+# BookInfo.objects.filter(bpub_date__gt='1990-1-1')
+
+# F 对象:两个字段之间的比较查询
+# BookInfo.objects.filter(bread__gt=20)
+# BookInfo.objects.filter(bread__gt=F('bcomment'))
+# BookInfo.objects.filter(bread__gt=F('bcomment') * 2)
+
+
+# Q: 逻辑与  逻辑或  逻辑非  and or not
+
+# BookInfo.objects.filter(bread__gt=20, id__lt=3)  # 查询同时两个条件都满足的 (逻辑与 and)
+# BookInfo.objects.filter(Q(bread__gt=20), Q(id__lt=3))  # 逻辑与 and  查询同时两个条件都满足的
+
+# BookInfo.objects.filter(Q(bread__gt=20) | Q(id__lt=3))  # 逻辑或 or  两个条件满足其中某一个的都查出来
+
+# BookInfo.objects.filter(~Q(id=3))  # 逻辑非 表示查询满足条件以外 和exclude 一样
+# BookInfo.objects.filter(Q(id=3))  # 查询id为3的
+
+# BookInfo.objects.aggregate(Sum('bread'))  # {bread__max : xx}
+
+# BookInfo.objects.all().order_by('bread')  # 默认升序
+# BookInfo.objects.all().order_by('-bread')  # 默认升序
+
+
+
+
+# 关联查询 ()
+"""如果filter中的条件不是当前的模型类字段 而是关联的模型字段做条件时,需要在字段名前面多加 模型名"""
+# 一查多/多查一
+
+# 多查一 (一.objects.filter(多的模型名小写__多的那方模型属性=值))
+# BookInfo.objects.filter(heroinfo__hname='郭靖')
+# BookInfo.objects.filter(heroinfo__hname__contains='靖')
+
+# 一查多 (多.objects.filter(外键__一的属性=值)
+# HeroInfo.objects.filter(bookinfo__id__gt=1)
+# HeroInfo.objects.filter(hbook__id=1)
+
+
+# 多查一 ( 先把多查出来, 然后再利用多里面的外键 查到一)
+# hero = HeroInfo.objects.get(hname='郭靖')
+# book = hero.hbook  # 如果有外键直接当前模型对象.外键 代表获取外键模型对象
+
+# 一查多 (先把一查出来, 然后得用一.多的那方模型名小写_set 查到多)
+# book = BookInfo.objects.get(id=1)
+# book.heroinfo_set.all()  # 如果当前没有外键的一方  应该是当前模型对象.多的一方模型旬小写_set
+
+
+# 查询英雄hcomment中包含'打狗'的书籍  (多查一)
+# BookInfo.objects.filter(heroinfo__hcomment__contains='打狗')
+
+# hero = HeroInfo.objects.get(hcomment__contains='打狗')
+# hero.hbook
+
+# 查询书籍发布日期为'1995'年的所有英雄 (一查多)
+# HeroInfo.objects.filter(hbook__bpub_date__year='1995')
+
+# book = BookInfo.objects.get(bpub_date__year='1995')
+# book.heroinfo_set.all()
+
+
+"""演示修改  save  update"""
+# book = BookInfo.objects.get(btitle='大三国')
+# book.btitle = '大大三国'
+# book.save()
+
+# BookInfo.objects.filter(id__in=[5, 6]).update(btitle='东游记')
+
+"""演示 删除 delete"""
+# book = BookInfo.objects.get(btitle='东游记')
+# book.delete()
+
+BookInfo.objects.filter(id=5).delete()

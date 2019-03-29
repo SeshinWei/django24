@@ -1,1 +1,1 @@
-import pymysqlpymysql.install_as_MySQLdb()  # 将pymysql改别名叫 mysqldb
+from pymysql import install_as_MySQLdbinstall_as_MySQLdb()  # 将pymysql改别名叫 mysqldb

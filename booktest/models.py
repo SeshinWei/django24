@@ -54,3 +54,5 @@ class HeroInfo(models.Model):
 
     read.short_description = '阅读量'
     read.admin_order_field = 'hbook__bread'
+
+
